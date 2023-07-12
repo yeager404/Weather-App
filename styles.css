@@ -17,7 +17,7 @@
     width:100vw;
     height:100vh;
     color: var(--colorLight2);
-    background: linear-gradient(160deg, rgb(64, 128, 180) 0%, rgb(16, 51, 140) 100%);
+    background: linear-gradient(160deg, rgb(64, 128, 180) 0%, rgb(11, 36, 100) 100%);
 }
 
 h1{
@@ -30,8 +30,10 @@ h1{
     display: flex;
     justify-content: space-between;
     max-width: 550px;
+    width: 90%;
     margin:0 auto;
     margin-top: 4rem; 
+    margin-bottom: 2rem;
 }
 
 .tab{
@@ -223,7 +225,9 @@ h1{
 }
 
 .form-container input:focus{
-    outline: 2px solid whitesmoke;
+    outline-style: solid;
+    outline-width: 2px;
+    outline-color: whitesmoke;
 }
 
 .form-container button{
@@ -242,5 +246,8 @@ h1{
       display: flex;
       flex-direction: column;
       padding-bottom: 3rem;
+    }
+    .parameter{
+        margin-bottom: 10px;
     }
   }
