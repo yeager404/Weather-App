@@ -7,6 +7,7 @@ const loadingScreen = document.querySelector(".loading-container");
 const userInfoContainer = document.querySelector(".user-info-container");
 const grantAccessButton = document.querySelector("[data-grantAccess]");
 const searchInput = document.querySelector("[data-searchInput]");
+const userErrorImage = document.querySelector(".user-error");
 
 //initially variable needed
 let currentTab = userTab;
@@ -60,6 +61,7 @@ function switchTab(clickedTab)
         searchForm.classList.add("active");
         userInfoContainer.classList.remove("active");
         grantAccessContainer.classList.remove("active");
+        userErrorImage.classList.remove("active");
 
     }
 
@@ -71,6 +73,7 @@ function switchTab(clickedTab)
         searchForm.classList.remove("active");
         userInfoContainer.classList.add("active");
         grantAccessContainer.classList.remove("active");
+        userErrorImage.classList.remove("active");
         getfromSessionStorage();
     }
 }
@@ -84,6 +87,7 @@ function getfromSessionStorage(){
         grantAccessContainer.classList.add("active");
         userInfoContainer.classList.remove("active");
         searchForm.classList.remove("active");
+        userErrorImage.classList.remove("active");
     }
     else{
         const coordinates = JSON.parse(localCoordinates);
@@ -108,6 +112,8 @@ async function fetchUserWeatherInfo(coordinates){
     loadingScreen.classList.add("active");
     //make userinfo invisible
     userInfoContainer.classList.remove("active");
+    //to make error page invisible
+    userErrorImage.classList.remove("active");
 
     //API call
     try{
@@ -117,16 +123,21 @@ async function fetchUserWeatherInfo(coordinates){
 
         loadingScreen.classList.remove("active");
         userInfoContainer.classList.add("active");
+        userErrorImage.classList.remove("active");
         renderWeatherInfo(data);
     }
     catch(er){
         loadingScreen.classList.remove("active");
         grantAccessContainer.classList.add("active");
+        userErrorImage.classList.remove("active");
         alert('Permission to access your location Denied');
     }
 }
 
 function renderWeatherInfo(weatherInfo){
+    loadingScreen.classList.remove("active");
+    userInfoContainer.classList.add("active");
+    userErrorImage.classList.remove("active");
     //firstly fetch the elements
     const cityName = document.querySelector("[data-cityName]");
     const countryIcon = document.querySelector("[data-countryIcon]");
@@ -170,15 +181,32 @@ async function fetchSearchWeatherInfo(city){
     userInfoContainer.classList.remove("active");
     grantAccessContainer.classList.remove("active");
     searchForm.classList.remove("active");
-
+    userErrorImage.classList.remove("active");
     try{
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}&units=metric`);
         const data = await response.json();
-        loadingScreen.classList.remove("active");
-        userInfoContainer.classList.add("active");
+
+        const apiCondition = data?.cod;
+        console.log(apiCondition);
+        if(apiCondition != 404)
         renderWeatherInfo(data);
+        else
+        errorMsg();
     }
     catch(er){
-        alert('City not found');
+        
+        userErrorImage.classList.add("active");
+        userInfoContainer.classList.remove("active");
+        grantAccessContainer.classList.remove("active");
+        searchForm.classList.remove("active");
+        loadingScreen.classList.remove("active");
     }
+}
+
+function errorMsg(){
+    userErrorImage.classList.add("active");
+    userInfoContainer.classList.remove("active");
+    grantAccessContainer.classList.remove("active");
+    searchForm.classList.remove("active");
+    loadingScreen.classList.remove("active");
 }
