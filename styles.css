@@ -247,7 +247,8 @@ h1{
 }
 
 .user-error{
-    display: none;    
+    display: none;
+    padding-bottom: 2rem;    
 }
 .error-text{
     font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -267,5 +268,20 @@ h1{
     }
     .parameter{
         margin-bottom: 10px;
+    }
+
+    .errorImage{
+        transform: scale(0.4);
+    }
+    .error-text{
+        font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size:1rem;
+        color: rgba(245, 245, 245, 0.845);
+    }
+  }
+
+  @media only screen and(max-width: 430px){
+    .errorImage{
+        transform: scale(0.3);
     }
   }
